@@ -1,6 +1,7 @@
 package com.example.photogalleryrecyclerviewcardview;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity  {
         //setUpTheRecycler();
 
 
+
         editText  = (EditText) findViewById(R.id.editTextTitle);
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
@@ -54,6 +57,19 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+            }
+        });
+
+
+        Button mImagePicker = (Button) findViewById(R.id.mImagePicker);
+
+        mImagePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent imagePicker = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(imagePicker,1);
             }
         });
 
@@ -81,7 +97,24 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    //imageview.setImageURI(selectedImage);
+                }
 
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    //imageview.setImageURI(selectedImage);
+                }
+                break;
+        }
+    }
 
 
 

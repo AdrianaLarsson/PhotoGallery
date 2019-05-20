@@ -33,7 +33,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnLoad"
+                android:id="@+id/mImagePicker"
                 android:layout_width="98dp"
                 android:layout_height="68dp"
                 android:layout_weight="1"
