@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+
         editText  = (EditText) findViewById(R.id.editTextTitle);
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
@@ -61,17 +62,7 @@ public class MainActivity extends AppCompatActivity  {
         });
 
 
-        Button mImagePicker = (Button) findViewById(R.id.mImagePicker);
 
-        mImagePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent imagePicker = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(imagePicker,1);
-            }
-        });
 
 
     }
