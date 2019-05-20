@@ -6,6 +6,13 @@ public class Item {
 
     private String mTitle;
 
+    public Item(String mTitle){
+
+        this.mTitle = mTitle;
+
+
+    }
+
 
 
 

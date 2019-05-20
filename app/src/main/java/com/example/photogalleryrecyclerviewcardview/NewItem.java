@@ -5,18 +5,16 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class NewItem extends AppCompatActivity {
 
-    Item mItem = new Item();
+    ArrayList<Item> itemArrayList = new ArrayList<>();
 
     ImageView imageViewEdit;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -26,10 +24,7 @@ public class NewItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_item);
 
-
-        final EditText editTextTitle = (EditText) findViewById(R.id.editTextTitle);
-
-
+        final EditText editTextTitle = (EditText) findViewById(R.id.textViewTitle);
 
         imageViewEdit = (ImageView) findViewById(R.id. imageViewEdit);
 
@@ -49,13 +44,16 @@ public class NewItem extends AppCompatActivity {
             public void onClick(View v) {
 
                 String itemToAdd = editTextTitle.getText().toString();
-                Intent intent = new Intent();
+                MainActivity.addItem(new Item(itemToAdd));
+
+               // Intent intent = new Intent(v.getContext(), MainActivity.class);
+                //intent.putExtra("ItemArrayList", itemArrayList);
+                //v.getContext().startActivity(intent);
 
 
-                Item item = new Item();
 
-                item.setTitle(editTextTitle.
-                        getText().toString());
+               // item.setTitle(editTextTitle.
+                 //       getText().toString());
 
                 finish();
 
@@ -66,11 +64,7 @@ public class NewItem extends AppCompatActivity {
 
     }
 
-    public void createNewNote(Item item){
 
-
-        mItem = item;
-    }
 
     public void SelectPhotoMethod(View view) {
 
@@ -78,7 +72,7 @@ public class NewItem extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-    }   
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -86,7 +80,7 @@ public class NewItem extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             Uri selectedImage = imageReturnedIntent.getData();
-           imageViewEdit.setImageURI(selectedImage);
+            imageViewEdit.setImageURI(selectedImage);
         }
     }
 

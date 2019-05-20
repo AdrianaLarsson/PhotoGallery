@@ -10,7 +10,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -18,30 +17,22 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
 
-
     private EditText editText;
-
     private RecyclerView recyclerView;
-    private Adapter mAdapter;
-    private List<Item> itemList;
-    List<Item> student;
+    private static Adapter mAdapter;
+    private static ArrayList<Item> itemList;
 
-
-
-    private ArrayList<Item> itemArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setUpTheRecycler();
 
+        Intent intent = new Intent();
+        Bundle extras = intent.getExtras();
 
-        //setUpTheRecycler();
-
-
-
-
-        editText  = (EditText) findViewById(R.id.editTextTitle);
+        editText  = (EditText) findViewById(R.id.textViewTitle);
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
 
@@ -54,25 +45,17 @@ public class MainActivity extends AppCompatActivity  {
                 Intent intent = new Intent(v.getContext(), NewItem.class);
                 startActivityForResult(intent, -1);
 
-
-
-
-
             }
         });
-
-
-
-
-
     }
 
     //set upp the recycler, layout and the adapter
     public void setUpTheRecycler(){
 
+        itemList = new ArrayList<>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        //mAdapter = new Item(this, itemList);
+        mAdapter = new Adapter(this,itemList);
 
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext());
@@ -82,9 +65,6 @@ public class MainActivity extends AppCompatActivity  {
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
-
-
-
 
     }
 
@@ -105,8 +85,17 @@ public class MainActivity extends AppCompatActivity  {
                 }
                 break;
         }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+    }
 
+    public static void addItem(Item item){
+        itemList.add(item);
+        mAdapter.notifyDataSetChanged();
+    }
 }
