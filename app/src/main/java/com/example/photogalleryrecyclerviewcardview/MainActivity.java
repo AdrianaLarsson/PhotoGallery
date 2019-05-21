@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +41,13 @@ public class MainActivity extends AppCompatActivity  {
        // Intent intent = new Intent();
         //Bundle extras = intent.getExtras();
 
+
+
+
+
         editText  = (EditText) findViewById(R.id.textViewTitle);
 
         imageViewEdit = (ImageView) findViewById(R.id.imageViewEdit);
-
-
 
 
 
@@ -109,15 +113,10 @@ public class MainActivity extends AppCompatActivity  {
 
     public static void addItem(Item item){
         itemList.add(item);
+
+
         mAdapter.notifyDataSetChanged();
     }
-    public static void showItem(int adapterPosition) {
 
-       ShowItem showItem = new ShowItem();
-
-
-
-
-    }
 
 }

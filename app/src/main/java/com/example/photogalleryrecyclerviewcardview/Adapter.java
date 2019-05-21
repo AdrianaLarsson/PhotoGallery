@@ -1,12 +1,16 @@
 package com.example.photogalleryrecyclerviewcardview;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,9 +22,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
     private MainActivity activity;
     private ArrayList<Item> itemList;
+    private NewItem newItem;
 
-
-
+    private Context context;
 
     public Adapter(MainActivity mainActivity, ArrayList<Item> itemList) {
 
@@ -34,17 +38,45 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
 
+
+
         return new ListItemHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.ListItemHolder listItemHolder, int position) {
+    public void onBindViewHolder(@NonNull final Adapter.ListItemHolder listItemHolder, final int position) {
         Item item = itemList.get(position);
         listItemHolder.mTitle.setText(item.getTitle());
 
         listItemHolder.mImage.setImageURI(item.getImageUri());
+
+
+        listItemHolder.mTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               // Intent intent = new Intent(v.getContext(), NewItem.class);
+
+
+                 TextView textView = (TextView) listItemHolder.mTitle.findViewById(R.id.textViewTitle);
+                 ImageView imageView = (ImageView) listItemHolder.mImage.findViewById(R.id.imageViewEdit);
+                Intent intent = new Intent(activity,NewItem.class);
+
+                intent.putExtra("textViewTitle", textView.getText().toString());
+
+                Toast.makeText(activity, "You clicked on image "  + String.valueOf(textView.getText()), Toast.LENGTH_SHORT).show();
+
+                activity.startActivity(intent);
+
+
+            }
+        });
+
+
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -53,10 +85,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
     }
 
 
-    public interface OnItemClickListener {
-    }
+
+
 
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 
        TextView mTitle;
        ImageView mImage;
@@ -69,17 +102,25 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
             mImage = (ImageView) itemView.findViewById(R.id.imageView);
 
+            itemView.setOnClickListener(this);
+            mImage.setOnClickListener(this);
+
+
         }
 
         @Override
         public void onClick(View v) {
 
-           MainActivity.showItem(getAdapterPosition());
+
+            Log.i("info", "" + getAdapterPosition());
+
+
+            Toast.makeText(activity, "You clicked on image " + " " + String.valueOf(mTitle.getText() + " and is on position " + getAdapterPosition() ), Toast.LENGTH_SHORT).show();
+
+
 
 
         }
     }
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
+
 }
