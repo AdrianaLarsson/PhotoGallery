@@ -1,19 +1,29 @@
 package com.example.photogalleryrecyclerviewcardview;
 
+import android.net.Uri;
+import android.widget.ImageView;
+
+import java.net.URI;
+
 public class Item {
 
-
-
     private String mTitle;
-
-    public Item(String mTitle){
-
-        this.mTitle = mTitle;
+    private Uri mImageUri;
 
 
+    public Item(){}
+
+    public Uri getImageUri()
+
+    {
+        return mImageUri;
     }
 
 
+    public void setImageUri(Uri imageUri) {
+
+        this.mImageUri = imageUri;
+    }
 
 
     public String getTitle()
@@ -27,4 +37,6 @@ public class Item {
 
         this.mTitle = mTitle;
     }
+
+
 }

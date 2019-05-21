@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,11 @@ public class MainActivity extends AppCompatActivity  {
     private static Adapter mAdapter;
     private static ArrayList<Item> itemList;
 
+
+    private ImageView imageViewEdit;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +36,16 @@ public class MainActivity extends AppCompatActivity  {
 
         setUpTheRecycler();
 
-        Intent intent = new Intent();
-        Bundle extras = intent.getExtras();
+       // Intent intent = new Intent();
+        //Bundle extras = intent.getExtras();
 
         editText  = (EditText) findViewById(R.id.textViewTitle);
+
+        imageViewEdit = (ImageView) findViewById(R.id.imageViewEdit);
+
+
+
+
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
 
@@ -74,14 +87,14 @@ public class MainActivity extends AppCompatActivity  {
             case 0:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    //imageview.setImageURI(selectedImage);
+                    imageViewEdit.setImageURI(selectedImage);
                 }
 
                 break;
             case 1:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    //imageview.setImageURI(selectedImage);
+                   imageViewEdit.setImageURI(selectedImage);
                 }
                 break;
         }
@@ -98,4 +111,13 @@ public class MainActivity extends AppCompatActivity  {
         itemList.add(item);
         mAdapter.notifyDataSetChanged();
     }
+    public static void showItem(int adapterPosition) {
+
+       ShowItem showItem = new ShowItem();
+
+
+
+
+    }
+
 }

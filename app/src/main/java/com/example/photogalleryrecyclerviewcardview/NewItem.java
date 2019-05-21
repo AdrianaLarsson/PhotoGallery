@@ -16,13 +16,17 @@ public class NewItem extends AppCompatActivity {
 
     ArrayList<Item> itemArrayList = new ArrayList<>();
 
+    Item mItem;
     ImageView imageViewEdit;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    Uri imgUri=Uri.parse("file:///data/data/MYFOLDER/myimage.png");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_item);
+
+        mItem = new Item();
 
         final EditText editTextTitle = (EditText) findViewById(R.id.textViewTitle);
 
@@ -44,9 +48,11 @@ public class NewItem extends AppCompatActivity {
             public void onClick(View v) {
 
                 String itemToAdd = editTextTitle.getText().toString();
-                MainActivity.addItem(new Item(itemToAdd));
 
-               // Intent intent = new Intent(v.getContext(), MainActivity.class);
+                mItem.setTitle(itemToAdd);
+
+                MainActivity.addItem(mItem);
+
                 //intent.putExtra("ItemArrayList", itemArrayList);
                 //v.getContext().startActivity(intent);
 
@@ -80,9 +86,9 @@ public class NewItem extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             Uri selectedImage = imageReturnedIntent.getData();
+
+            mItem.setImageUri(selectedImage);
             imageViewEdit.setImageURI(selectedImage);
         }
     }
-
-
 }
