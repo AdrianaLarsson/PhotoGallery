@@ -20,17 +20,19 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
-    private MainActivity activity;
-    private ArrayList<Item> itemList;
-    private NewItem newItem;
-
+    //private ArrayList<Item> itemList;
     private Context context;
+    private List<Item> mItemList;
+    private MainActivity mMainActivity;
 
-    public Adapter(MainActivity mainActivity, ArrayList<Item> itemList) {
 
-        this.activity = mainActivity;
-        this.itemList = itemList;
+    public Adapter(MainActivity mainActivity,
+                               List<Item> itemlist) {
+
+        mMainActivity = mainActivity;
+        mItemList = itemlist;
     }
+
 
     @NonNull
     @Override
@@ -39,14 +41,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
 
 
-
         return new ListItemHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Adapter.ListItemHolder listItemHolder, final int position) {
-        Item item = itemList.get(position);
+        Item item = mItemList.get(position);
         listItemHolder.mTitle.setText(item.getTitle());
 
         listItemHolder.mImage.setImageURI(item.getImageUri());
@@ -61,13 +62,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
                  TextView textView = (TextView) listItemHolder.mTitle.findViewById(R.id.textViewTitle);
                  ImageView imageView = (ImageView) listItemHolder.mImage.findViewById(R.id.imageViewEdit);
-                Intent intent = new Intent(activity,NewItem.class);
+                Intent intent = new Intent(mMainActivity,NewItem.class);
 
                 intent.putExtra("textViewTitle", textView.getText().toString());
 
-                Toast.makeText(activity, "You clicked on image "  + String.valueOf(textView.getText()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mMainActivity, "You clicked on image "  + String.valueOf(textView.getText()), Toast.LENGTH_SHORT).show();
 
-                activity.startActivity(intent);
+                mMainActivity.startActivity(intent);
 
 
             }
@@ -81,11 +82,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
     @Override
     public int getItemCount() {
 
-        return itemList.size();
+        return mItemList.size();
     }
-
-
-
 
 
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -115,7 +113,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
             Log.i("info", "" + getAdapterPosition());
 
 
-            Toast.makeText(activity, "You clicked on image " + " " + String.valueOf(mTitle.getText() + " and is on position " + getAdapterPosition() ), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mMainActivity, "You clicked on image " + " " + String.valueOf(mTitle.getText() + " and is on position " + getAdapterPosition() ), Toast.LENGTH_SHORT).show();
 
 
 

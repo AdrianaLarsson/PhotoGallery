@@ -6,14 +6,17 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NewItem extends AppCompatActivity {
+public  class NewItem extends AppCompatActivity {
 
     ArrayList<Item> itemArrayList = new ArrayList<>();
 
@@ -21,11 +24,14 @@ public class NewItem extends AppCompatActivity {
     ImageView imageViewEdit;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private static Adapter mAdapter;
+    private  Adapter mAdapter;
+
 
     private RecyclerView recyclerView;
+    private JSONSerialLizer mSeriallizer;
+    private  List<Item> itemList;
 
-
+    private MainActivity mainActivity;
 
 
     @Override
@@ -34,11 +40,19 @@ public class NewItem extends AppCompatActivity {
         setContentView(R.layout.new_item);
 
 
+        mSeriallizer = new JSONSerialLizer("PhotoGalleryRecyclerViewCardView.json",
+                getApplicationContext());
+
+        try {
+            itemList = mSeriallizer.load();
+
+        } catch (Exception e) {
+            itemList = new ArrayList<Item>();
 
 
+            Log.i("Error loading items: ", "", e);
 
-
-
+        }
 
 
         mItem = new Item();
@@ -76,6 +90,8 @@ public class NewItem extends AppCompatActivity {
                // item.setTitle(editTextTitle.
                  //       getText().toString());
 
+                saveItems();
+
                 finish();
 
             }
@@ -105,5 +121,28 @@ public class NewItem extends AppCompatActivity {
             mItem.setImageUri(selectedImage);
             imageViewEdit.setImageURI(selectedImage);
         }
+    }
+
+    public void saveItems(){
+        try{
+
+            mSeriallizer.save(itemList);
+            Toast.makeText(this, "SAVES", Toast.LENGTH_SHORT).show();
+
+
+        }catch(Exception e){
+            Log.e("Error Saving Notes","", e);
+            Toast.makeText(this, "Error Saving Notes", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
+    //it saves when the app is on pause
+    protected void onPause(){
+        super.onPause();
+
+        saveItems();
+
     }
 }
