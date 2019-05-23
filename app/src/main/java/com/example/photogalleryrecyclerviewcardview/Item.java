@@ -21,11 +21,13 @@ public class Item {
     public Item(JSONObject jsonObject) throws JSONException {
 
         mTitle = jsonObject.getString(JSON_TITLE);
-        mDescription = jsonObject.getString(JSON_DESCRIPTION);
+        //mDescription = jsonObject.getString(JSON_DESCRIPTION);
 
 
     }
     public Item(){}
+
+
 
     public Uri getImageUri()
 
@@ -50,6 +52,18 @@ public class Item {
     public void setTitle(String mTitle) {
 
         this.mTitle = mTitle;
+    }
+
+    public String getmDescription()
+
+    {
+        return mDescription;
+    }
+
+
+    public void setDescription(String mDescription) {
+
+        this.mDescription = mDescription;
     }
 
     public JSONObject convertToJSON() throws JSONException {

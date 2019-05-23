@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity  {
 
     private EditText editText;
     private RecyclerView recyclerView;
-    private static Adapter mAdapter;
+    private Adapter mAdapter;
    // private static ArrayList<Item> itemList;
-    private static List<Item> itemList;
+    private ArrayList<Item> itemList;
     private ImageView imageViewEdit;
     private JSONSerialLizer mSeriallizer;
 
@@ -35,45 +35,19 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //picks upp the methods and class from json so it saves
-
         mSeriallizer = new JSONSerialLizer("PhotoGalleryRecyclerViewCardView.json",
                 getApplicationContext());
 
-
-        try {
-
-            itemList = mSeriallizer.load();
-            Toast.makeText(this, "loads", Toast.LENGTH_SHORT).show();
-            Log.e("Load", "" + itemList);
-
-
-        } catch (Exception e) {
-
-
-          itemList = new ArrayList<Item>();
-
-            Log.i("Error loading items: ", "", e);
-            Toast.makeText(this, "Error dosent loading items", Toast.LENGTH_SHORT).show();
-
-        }
-
-
+        jsonLoad();
         setUpTheRecycler();
        // Intent intent = new Intent();
         //Bundle extras = intent.getExtras();
 
 
 
-
-
-
         editText  = (EditText) findViewById(R.id.textViewTitle);
 
         imageViewEdit = (ImageView) findViewById(R.id.imageViewEdit);
-
-
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
 
@@ -89,12 +63,17 @@ public class MainActivity extends AppCompatActivity  {
 
 
             }
+
         });
 
 
+    }
 
-        mAdapter.notifyDataSetChanged();
-        recyclerView.getAdapter().notifyDataSetChanged();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        jsonLoad();
     }
 
     //set upp the recycler, layout and the adapter
@@ -112,6 +91,7 @@ public class MainActivity extends AppCompatActivity  {
                 new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
+        recyclerView.getAdapter().notifyDataSetChanged();
         mAdapter.notifyDataSetChanged();
 
     }
@@ -139,8 +119,10 @@ public class MainActivity extends AppCompatActivity  {
 
 
     //adds item
-    public static void addItem(Item item){
+    public void addItem(Item item){
        itemList.add(item);
+       //Log.i("ADD ITEM", itemList.get(0).getTitle());
+        //saveItems();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -166,10 +148,33 @@ public class MainActivity extends AppCompatActivity  {
         super.onPause();
 
         Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
-        saveItems();
+        //saveItems();
 
     }
 
+    //picks upp the methods and class from json so it saves
+    public void jsonLoad(){
+
+
+
+
+        try {
+
+            itemList = mSeriallizer.load();
+            Toast.makeText(this, "loads", Toast.LENGTH_SHORT).show();
+            Log.e("Load", "" + itemList);
+
+
+        } catch (Exception e) {
+
+
+            itemList = new ArrayList<Item>();
+            Log.i("Error loading items: ", "", e);
+            Toast.makeText(this, "Error dosent loading items", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.photogalleryrecyclerviewcardview;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class JSONSerialLizer {
 
 
 
-    public void save(List<Item> itemList) throws IOException, JSONException {
+    public void save(ArrayList<Item> itemList) throws IOException, JSONException {
 
         //makes an arraylist of json. ArrayList for handling JSON objects.
         JSONArray jsonArray = new JSONArray();
@@ -55,6 +56,8 @@ public class JSONSerialLizer {
             writer = new OutputStreamWriter(outputStream);
             writer.write(jsonArray.toString());
 
+            Log.i("SAVEJSON", jsonArray.toString());
+
         }finally {
 
             if (writer != null){
@@ -69,7 +72,7 @@ public class JSONSerialLizer {
     public ArrayList<Item> load() throws  IOException, JSONException{
 
 
-        ArrayList<Item> itemArrayList = new ArrayList<Item>();
+        ArrayList<Item> itemArrayList = new ArrayList<>();
 
         BufferedReader reader = null;
 
@@ -80,16 +83,19 @@ public class JSONSerialLizer {
 
             String line = null;
 
+            Log.i("json seria load", "forsoker");
+
             while ((line = reader.readLine()) != null){
 
                 jsonString.append(line);
 
             }
 
-            JSONArray jsonArray= (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
+            JSONArray jsonArray = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
 
             for (int i = 0; i < jsonArray.length(); i++){
                 itemArrayList.add(new Item( jsonArray.getJSONObject(i)));
+                Log.i("json serializer LOAD", itemArrayList.get(i).getTitle());
 
             }
 

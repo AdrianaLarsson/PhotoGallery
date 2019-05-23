@@ -29,7 +29,7 @@ public  class NewItem extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private JSONSerialLizer mSeriallizer;
-    private  List<Item> itemList;
+    private ArrayList<Item> itemList;
 
     private MainActivity mainActivity;
 
@@ -59,6 +59,14 @@ public  class NewItem extends AppCompatActivity {
 
         final EditText editTextTitle = (EditText) findViewById(R.id.textViewTitle);
 
+        final EditText description = (EditText) findViewById(R.id.description);
+
+        String itemToAdd = editTextTitle.getText().toString();
+        String itemToAddD = description.getText().toString();
+        mItem.setTitle(itemToAdd);
+
+        mItem.setDescription(itemToAddD);
+
         imageViewEdit = (ImageView) findViewById(R.id. imageViewEdit);
 
         imageViewEdit.setOnClickListener(new View.OnClickListener() {
@@ -71,16 +79,32 @@ public  class NewItem extends AppCompatActivity {
             }
         });
 
+        Button saveBtn = (Button) findViewById(R.id.saveBtn);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                saveItems();
+            }
+        });
+
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String itemToAdd = editTextTitle.getText().toString();
+                String itemToAddD = description.getText().toString();
 
                 mItem.setTitle(itemToAdd);
 
-                MainActivity.addItem(mItem);
+                mItem.setDescription(itemToAddD);
+
+                itemList.add(mItem);
+                itemList.add(mItem);
+
+                //mainActivity.addItem(mItem);
 
                 //intent.putExtra("ItemArrayList", itemArrayList);
                 //v.getContext().startActivity(intent);
@@ -97,6 +121,7 @@ public  class NewItem extends AppCompatActivity {
             }
 
         });
+
 
 
     }
@@ -128,6 +153,7 @@ public  class NewItem extends AppCompatActivity {
 
             mSeriallizer.save(itemList);
             Toast.makeText(this, "SAVES", Toast.LENGTH_SHORT).show();
+            Log.i("SAVE newItem", itemList.get(0).getTitle());
 
 
         }catch(Exception e){
@@ -143,6 +169,12 @@ public  class NewItem extends AppCompatActivity {
         super.onPause();
 
         saveItems();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 }
