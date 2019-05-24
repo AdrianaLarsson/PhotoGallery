@@ -6,9 +6,12 @@ import android.widget.ImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URI;
 
-public class Item {
+
+
+public class Item implements Serializable {
 
     private String mTitle;
     private Uri mImageUri;
@@ -21,7 +24,7 @@ public class Item {
     public Item(JSONObject jsonObject) throws JSONException {
 
         mTitle = jsonObject.getString(JSON_TITLE);
-        //mDescription = jsonObject.getString(JSON_DESCRIPTION);
+        mDescription = jsonObject.getString(JSON_DESCRIPTION);
 
 
     }

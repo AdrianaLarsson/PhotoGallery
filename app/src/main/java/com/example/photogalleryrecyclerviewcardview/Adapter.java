@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
     //private ArrayList<Item> itemList;
@@ -27,7 +28,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
 
     public Adapter(MainActivity mainActivity,
-                               List<Item> itemlist) {
+                   List<Item> itemlist) {
 
         mMainActivity = mainActivity;
         mItemList = itemlist;
@@ -47,27 +48,37 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final Adapter.ListItemHolder listItemHolder, final int position) {
-        Item item = mItemList.get(position);
+        final Item item = mItemList.get(position);
         listItemHolder.mTitle.setText(item.getTitle());
-
+        // set the complete item to list Item Holder so that on click we can pass whole to another activity
+        listItemHolder.item = item;
+        listItemHolder.position = position;
+        Log.d("Tag", "onBindViewHolder: -----------"+item.getmDescription());
         listItemHolder.mImage.setImageURI(item.getImageUri());
+
+
 
 
         listItemHolder.mTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               // Intent intent = new Intent(v.getContext(), NewItem.class);
+                // Intent intent = new Intent(v.getContext(), NewItem.class);
 
 
-                 TextView textView = (TextView) listItemHolder.mTitle.findViewById(R.id.textViewTitle);
-                 ImageView imageView = (ImageView) listItemHolder.mImage.findViewById(R.id.imageViewEdit);
+                TextView textView = (TextView) listItemHolder.mTitle.findViewById(R.id.textViewTitle);
+                ImageView imageView = (ImageView) listItemHolder.mImage.findViewById(R.id.imageViewEdit);
                 Intent intent = new Intent(mMainActivity,NewItem.class);
 
                 intent.putExtra("textViewTitle", textView.getText().toString());
-
                 Toast.makeText(mMainActivity, "You clicked on image "  + String.valueOf(textView.getText()), Toast.LENGTH_SHORT).show();
 
+                intent = new Intent(v.getContext(), NewItem.class);
+                intent.putExtra("item",item);
+                intent.putExtra("position",position);
+                if (item == null){
+                    Log.d("onClick", "onClick: item is found null");
+                }
                 mMainActivity.startActivity(intent);
 
 
@@ -89,19 +100,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
     public class ListItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-       TextView mTitle;
-       ImageView mImage;
+        TextView mTitle;
+        ImageView mImage;
+        Item item;
+        int position;
 
         public ListItemHolder(@NonNull View itemView) {
             super(itemView);
 
             mTitle = (TextView)
                     itemView.findViewById(R.id.textViewTitle);
-
             mImage = (ImageView) itemView.findViewById(R.id.imageView);
 
             itemView.setOnClickListener(this);
-            mImage.setOnClickListener(this);
+            //mImage.setOnClickListener(this);
+            //mTitle.setOnClickListener(this);
 
 
         }
@@ -109,14 +122,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
         @Override
         public void onClick(View v) {
 
-
             Log.i("info", "" + getAdapterPosition());
-
-
-            Toast.makeText(mMainActivity, "You clicked on image " + " " + String.valueOf(mTitle.getText() + " and is on position " + getAdapterPosition() ), Toast.LENGTH_SHORT).show();
-
-
-
+            Toast.makeText(mMainActivity, "You clicked on image " + " " + String.valueOf(mTitle.getText() ), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), NewItem.class);
+            intent.putExtra("item",item);
+            intent.putExtra("position",position);
+            if (item == null){
+                Log.d("onClick", "onClick: item is found null");
+            }
+//            Item it = (Item)intent.getExtras().get("item");
+//            Log.d("Test-----------",it.getmDescription());
+            mMainActivity.startActivity(intent);
 
         }
     }

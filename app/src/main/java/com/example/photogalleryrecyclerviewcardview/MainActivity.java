@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity  {
     private EditText editText;
     private RecyclerView recyclerView;
     private Adapter mAdapter;
-   // private static ArrayList<Item> itemList;
+    // private static ArrayList<Item> itemList;
     private ArrayList<Item> itemList;
     private ImageView imageViewEdit;
     private JSONSerialLizer mSeriallizer;
@@ -38,15 +38,14 @@ public class MainActivity extends AppCompatActivity  {
         mSeriallizer = new JSONSerialLizer("PhotoGalleryRecyclerViewCardView.json",
                 getApplicationContext());
 
-        jsonLoad();
-        setUpTheRecycler();
-       // Intent intent = new Intent();
+        //  jsonLoad();
+        // setUpTheRecycler();
+        // Intent intent = new Intent();
         //Bundle extras = intent.getExtras();
 
 
 
         editText  = (EditText) findViewById(R.id.textViewTitle);
-
         imageViewEdit = (ImageView) findViewById(R.id.imageViewEdit);
 
         FloatingActionButton floatingActionButtonPlusItemAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonPlusItemAdd);
@@ -72,8 +71,8 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
         jsonLoad();
+        setUpTheRecycler();
     }
 
     //set upp the recycler, layout and the adapter
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity  {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mAdapter = new Adapter(MainActivity.this, itemList);
+        Log.e("Set Up Recycled View", "setUpTheRecycler: "+itemList.size());
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity  {
             case 1:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                   imageViewEdit.setImageURI(selectedImage);
+                    imageViewEdit.setImageURI(selectedImage);
                 }
                 break;
         }
@@ -120,14 +120,15 @@ public class MainActivity extends AppCompatActivity  {
 
     //adds item
     public void addItem(Item item){
-       itemList.add(item);
-       //Log.i("ADD ITEM", itemList.get(0).getTitle());
+        itemList.add(item);
+        //Log.i("ADD ITEM", itemList.get(0).getTitle());
         //saveItems();
         mAdapter.notifyDataSetChanged();
     }
 
     //saves item
     public void saveItems(){
+        Log.d("Save Items : ", "saveItems: execution pointer is in saveItems");
         try{
 
             mSeriallizer.save(itemList);
@@ -147,16 +148,13 @@ public class MainActivity extends AppCompatActivity  {
     protected void onPause(){
         super.onPause();
 
-        Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
-        //saveItems();
+       // Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
+        // saveItems();
 
     }
 
     //picks upp the methods and class from json so it saves
     public void jsonLoad(){
-
-
-
 
         try {
 

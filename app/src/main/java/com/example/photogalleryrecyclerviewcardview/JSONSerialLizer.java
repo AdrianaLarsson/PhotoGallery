@@ -1,6 +1,7 @@
 package com.example.photogalleryrecyclerviewcardview;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class JSONSerialLizer {
 
@@ -90,19 +92,20 @@ public class JSONSerialLizer {
                 jsonString.append(line);
 
             }
-
+            Log.e("Load Data from file", "load: "+jsonString );
             JSONArray jsonArray = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
 
             for (int i = 0; i < jsonArray.length(); i++){
                 itemArrayList.add(new Item( jsonArray.getJSONObject(i)));
                 Log.i("json serializer LOAD", itemArrayList.get(i).getTitle());
-
+                Log.i("json serializer LOAD", itemArrayList.get(i).getmDescription());
+                Log.i("json serializer LOAD", String.valueOf(itemArrayList.size()));
             }
 
 
         }catch (FileNotFoundException e){
 
-
+            Log.e("File Not Found : ", "load: JSON File not found");
         }finally {
             if (reader != null){
                 reader.close();

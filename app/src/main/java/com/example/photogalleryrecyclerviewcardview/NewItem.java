@@ -16,12 +16,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public  class NewItem extends AppCompatActivity {
 
     ArrayList<Item> itemArrayList = new ArrayList<>();
 
     Item mItem;
     ImageView imageViewEdit;
+    int itemPosition;
+    Boolean isExistingItem = false;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private  Adapter mAdapter;
@@ -31,6 +34,9 @@ public  class NewItem extends AppCompatActivity {
     private JSONSerialLizer mSeriallizer;
     private ArrayList<Item> itemList;
 
+    EditText editTextTitle;
+    EditText description;
+
     private MainActivity mainActivity;
 
 
@@ -38,6 +44,10 @@ public  class NewItem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_item);
+        mItem = new Item();
+        imageViewEdit = (ImageView) findViewById(R.id. imageViewEdit);
+        editTextTitle = (EditText) findViewById(R.id.textViewTitle);
+        description  = (EditText) findViewById(R.id.description);
 
 
         mSeriallizer = new JSONSerialLizer("PhotoGalleryRecyclerViewCardView.json",
@@ -54,27 +64,42 @@ public  class NewItem extends AppCompatActivity {
 
         }
 
-
-        mItem = new Item();
-
-        final EditText editTextTitle = (EditText) findViewById(R.id.textViewTitle);
-
-        final EditText description = (EditText) findViewById(R.id.description);
+        // get selected Item from last activity
+        Intent intent =  getIntent();
+        if (intent != null){
+            if (intent.getExtras() != null) {
+                Item selectedItem = (Item) intent.getExtras().get("item");
+                if (selectedItem != null) {
+                    editTextTitle.setText(selectedItem.getTitle());
+                    description.setText(selectedItem.getmDescription());
+                    imageViewEdit.setImageURI(selectedItem.getImageUri());
+                    mItem = selectedItem;
+                    itemPosition = intent.getIntExtra("position",0);
+                    isExistingItem = true;
+                    Log.e("Came from", "item received! For position"+itemPosition);
+                } else {
+                    Log.e("previous item ", "item not received!");
+                }
+            }
+            else {
+                mItem = new Item();
+                Log.e("new item initialized ","item not received!");
+            }
+        }else {
+            mItem = new Item();
+            Log.e("new item initialized ","item not received!");
+        }
 
         String itemToAdd = editTextTitle.getText().toString();
         String itemToAddD = description.getText().toString();
         mItem.setTitle(itemToAdd);
-
         mItem.setDescription(itemToAddD);
-
-        imageViewEdit = (ImageView) findViewById(R.id. imageViewEdit);
 
         imageViewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent imagePicker = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                 startActivityForResult(imagePicker, 1);
             }
         });
@@ -86,6 +111,7 @@ public  class NewItem extends AppCompatActivity {
             public void onClick(View v) {
 
                 saveItems();
+                finish();
             }
         });
 
@@ -96,13 +122,17 @@ public  class NewItem extends AppCompatActivity {
 
                 String itemToAdd = editTextTitle.getText().toString();
                 String itemToAddD = description.getText().toString();
-
+                System.out.println(itemToAddD+"-------=============");
                 mItem.setTitle(itemToAdd);
 
                 mItem.setDescription(itemToAddD);
 
-                itemList.add(mItem);
-                itemList.add(mItem);
+                if (isExistingItem) {
+                    itemList.set(itemPosition, mItem);
+                }else {
+                    itemList.add(mItem);
+//                itemList.add(mItem);
+                }
 
                 //mainActivity.addItem(mItem);
 
@@ -111,12 +141,12 @@ public  class NewItem extends AppCompatActivity {
 
 
 
-               // item.setTitle(editTextTitle.
-                 //       getText().toString());
+                // item.setTitle(editTextTitle.
+                //       getText().toString());
 
                 saveItems();
-
-                finish();
+                Log.d("Description", "onClick: item is going to be saved!");
+                 finish();
 
             }
 
@@ -149,15 +179,17 @@ public  class NewItem extends AppCompatActivity {
     }
 
     public void saveItems(){
+        Log.d("Save Items : ", "saveItems: execution pointer is in saveItems");
+        Log.e("Save Items", "saveItems: total items"+itemList.size() );
         try{
 
             mSeriallizer.save(itemList);
             Toast.makeText(this, "SAVES", Toast.LENGTH_SHORT).show();
-            Log.i("SAVE newItem", itemList.get(0).getTitle());
+            Log.i("SAVE newItem", String.valueOf(itemList.size()));
 
 
         }catch(Exception e){
-            Log.e("Error Saving Notes","", e);
+            Log.e("Error Saving Notes",""+e.getMessage());
             Toast.makeText(this, "Error Saving Notes", Toast.LENGTH_SHORT).show();
 
         }
