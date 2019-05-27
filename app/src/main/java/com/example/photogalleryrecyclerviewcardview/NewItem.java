@@ -1,6 +1,7 @@
 package com.example.photogalleryrecyclerviewcardview;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -72,7 +73,8 @@ public  class NewItem extends AppCompatActivity {
                 if (selectedItem != null) {
                     editTextTitle.setText(selectedItem.getTitle());
                     description.setText(selectedItem.getmDescription());
-                    imageViewEdit.setImageURI(selectedItem.getImageUri());
+                    // imageViewEdit.setImageURI(selectedItem.getImageUri());
+                    imageViewEdit.setImageBitmap(Utile.getBitmapFromString(selectedItem.getImage()));
                     mItem = selectedItem;
                     itemPosition = intent.getIntExtra("position",0);
                     isExistingItem = true;
@@ -122,9 +124,10 @@ public  class NewItem extends AppCompatActivity {
 
                 String itemToAdd = editTextTitle.getText().toString();
                 String itemToAddD = description.getText().toString();
+                String image = Utile.convertImageToString(imageViewEdit.getDrawable());
                 System.out.println(itemToAddD+"-------=============");
                 mItem.setTitle(itemToAdd);
-
+                mItem.setImage(image);
                 mItem.setDescription(itemToAddD);
 
                 if (isExistingItem) {
@@ -146,7 +149,7 @@ public  class NewItem extends AppCompatActivity {
 
                 saveItems();
                 Log.d("Description", "onClick: item is going to be saved!");
-                 finish();
+                finish();
 
             }
 

@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onPause(){
         super.onPause();
 
-       // Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
         // saveItems();
 
     }

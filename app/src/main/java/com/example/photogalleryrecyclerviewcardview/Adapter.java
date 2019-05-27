@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
 
     //private ArrayList<Item> itemList;
@@ -50,11 +49,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListItemHolder> {
     public void onBindViewHolder(@NonNull final Adapter.ListItemHolder listItemHolder, final int position) {
         final Item item = mItemList.get(position);
         listItemHolder.mTitle.setText(item.getTitle());
+        // set image
+        listItemHolder.mImage.setImageBitmap(Utile.getBitmapFromString(item.getImage()));
         // set the complete item to list Item Holder so that on click we can pass whole to another activity
         listItemHolder.item = item;
         listItemHolder.position = position;
         Log.d("Tag", "onBindViewHolder: -----------"+item.getmDescription());
-        listItemHolder.mImage.setImageURI(item.getImageUri());
+//        listItemHolder.mImage.setImageURI(item.getImageUri());
 
 
 

@@ -16,8 +16,10 @@ public class Item implements Serializable {
     private String mTitle;
     private Uri mImageUri;
     private String mDescription;
+    private String image;
     private static final String JSON_TITLE = "title";
     private static final String JSON_DESCRIPTION = "description";
+    private static final String JSON_IMAGE  = "image";
 
 
 
@@ -25,7 +27,7 @@ public class Item implements Serializable {
 
         mTitle = jsonObject.getString(JSON_TITLE);
         mDescription = jsonObject.getString(JSON_DESCRIPTION);
-
+        image = jsonObject.getString(JSON_IMAGE);
 
     }
     public Item(){}
@@ -69,6 +71,14 @@ public class Item implements Serializable {
         this.mDescription = mDescription;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public JSONObject convertToJSON() throws JSONException {
 
 
@@ -76,7 +86,7 @@ public class Item implements Serializable {
 
         jsonObject.put(JSON_TITLE, mTitle);
         jsonObject.put(JSON_DESCRIPTION, mDescription);
-
+        jsonObject.put(JSON_IMAGE,image);
 
 
         return  jsonObject;
