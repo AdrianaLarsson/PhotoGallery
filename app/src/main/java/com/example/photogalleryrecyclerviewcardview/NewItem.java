@@ -106,6 +106,7 @@ public  class NewItem extends AppCompatActivity {
             }
         });
 
+        //saves change text
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +118,7 @@ public  class NewItem extends AppCompatActivity {
             }
         });
 
+        //add new note
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

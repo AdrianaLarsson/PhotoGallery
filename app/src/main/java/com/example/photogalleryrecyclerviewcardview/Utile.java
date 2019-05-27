@@ -8,6 +8,8 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
+//converts the images to string so you can save it on json file
+
 public class Utile {
 
     public static String convertImageToString(Drawable drawable){

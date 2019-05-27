@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity  {
         mAdapter.notifyDataSetChanged();
 
     }
-
+//code taht you can load up image
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch(requestCode) {
