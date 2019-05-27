@@ -106,17 +106,7 @@ public  class NewItem extends AppCompatActivity {
             }
         });
 
-        //saves change text
-        Button saveBtn = (Button) findViewById(R.id.saveBtn);
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                saveItems();
-                finish();
-            }
-        });
 
         //add new note
         Button btnAdd = (Button) findViewById(R.id.btnAdd);

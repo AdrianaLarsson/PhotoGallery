@@ -44,13 +44,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/saveBtn"
-                android:layout_width="98dp"
-                android:layout_height="68dp"
-                android:layout_weight="1"
-                android:text="Save" />
-
-            <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="66dp"
